@@ -1,165 +1,207 @@
 "use client";
 
+import { registerSchema } from "@/schemas/register.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { ArrowLeft, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import {
+  EyeIcon,
+  EyeOffIcon,
+  LockIcon,
+  MailIcon,
+  UserIcon,
+} from "lucide-react";
 import { signIn } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import z from "zod";
+import google from "../../public/google.png";
+import { Button } from "./ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Field, FieldError, FieldGroup, FieldLabel } from "./ui/field";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
 
-type RegisterFormProps = {
-  setIsWelcome: (value: boolean) => void;
-};
-
-export default function RegisterForm({ setIsWelcome }: RegisterFormProps) {
+export default function RegisterForm() {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPass, setShowPass] = useState(false);
-  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!name || !email || !password) {
-      setError("All fields are required!");
-      return;
-    }
-
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters!");
-      return;
-    }
-
-    setError("");
-
+  const onSubmit = async (data: z.infer<typeof registerSchema>) => {
     try {
-      const res = await axios.post("/api/auth/register", {
-        name,
-        email,
-        password,
-      });
+      const res = await axios.post("/api/auth/register", data);
 
       if (res.status === 200) {
+        toast.success(res.data.message);
         router.push("/login");
-        console.log(res.data);
       }
     } catch (err: any) {
-      if (err.response?.data?.message) {
-        setError(err.response.data.message);
-      } else {
-        setError("Something went wrong. Try again!");
-      }
+      console.log(err);
+      const message = err.response?.data?.message || "Something went wrong.";
+      toast.error(message);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-linear-to-br from-green-50 to-yellow-50 p-6 relative">
-      <button
-        onClick={() => setIsWelcome(true)}
-        className="absolute top-6 left-6 flex items-center gap-1 text-green-700 hover:text-green-900 font-medium"
-      >
-        <ArrowLeft className="w-5 h-5" />
-        Back
-      </button>
-
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-xl rounded-2xl p-8 max-w-md w-full border border-green-100 animate-fade-in-down"
-      >
-        <h2 className="text-3xl font-bold text-center text-green-700 mb-6">
-          Create Your Account
-        </h2>
-
-        {/* Name */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Full Name
-          </label>
-          <div className="flex items-center border rounded-lg px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-green-500">
-            <User className="text-gray-500 h-5 w-5" />
-            <input
-              type="text"
-              className="flex-1 outline-none px-3"
-              placeholder="John Doe"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-        </div>
-
-        {/* Email */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Email Address
-          </label>
-          <div className="flex items-center border rounded-lg px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-green-500">
-            <Mail className="text-gray-500 h-5 w-5" />
-            <input
-              type="email"
-              className="flex-1 outline-none px-3"
-              placeholder="example@gmail.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-        </div>
-
-        {/* Password */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Password
-          </label>
-          <div className="flex items-center border rounded-lg px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-green-500">
-            <Lock className="text-gray-500 h-5 w-5" />
-            <input
-              type={showPass ? "text" : "password"}
-              className="flex-1 outline-none px-3"
-              placeholder="At least 6 characters"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            {showPass ? (
-              <EyeOff
-                className="cursor-pointer text-gray-600"
-                onClick={() => setShowPass(false)}
+    <div className="flex items-center justify-center">
+      <Card className="w-full shadow-xl rounded-2xl border-green-100 animate-fade-in-down sm:max-w-md">
+        <CardHeader>
+          <CardTitle className="text-3xl font-bold text-center text-green-700">
+            Create Your Account
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form id="form-register" onSubmit={form.handleSubmit(onSubmit)}>
+            <FieldGroup className="gap-4">
+              <Controller
+                name="name"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid} className="gap-1">
+                    <FieldLabel htmlFor="form-name">
+                      Full Name <span className="text-destructive">*</span>
+                    </FieldLabel>
+                    <InputGroup>
+                      <InputGroupAddon align="inline-start">
+                        <UserIcon />
+                      </InputGroupAddon>
+                      <InputGroupInput
+                        {...field}
+                        id="form-name"
+                        aria-invalid={fieldState.invalid}
+                        placeholder="John Doe"
+                        autoComplete="off"
+                        type="text"
+                      />
+                    </InputGroup>
+                    {fieldState.invalid && (
+                      <FieldError
+                        errors={[fieldState.error]}
+                        className="text-xs"
+                      />
+                    )}
+                  </Field>
+                )}
               />
-            ) : (
-              <Eye
-                className="cursor-pointer text-gray-600"
-                onClick={() => setShowPass(true)}
+              <Controller
+                name="email"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid} className="gap-1">
+                    <FieldLabel htmlFor="form-email">
+                      Email Address <span className="text-destructive">*</span>
+                    </FieldLabel>
+                    <InputGroup>
+                      <InputGroupAddon align="inline-start">
+                        <MailIcon />
+                      </InputGroupAddon>
+                      <InputGroupInput
+                        {...field}
+                        id="form-email"
+                        aria-invalid={fieldState.invalid}
+                        placeholder="example@gmail.com"
+                        autoComplete="off"
+                        type="email"
+                      />
+                    </InputGroup>
+                    {fieldState.invalid && (
+                      <FieldError
+                        errors={[fieldState.error]}
+                        className="text-xs"
+                      />
+                    )}
+                  </Field>
+                )}
               />
-            )}
-          </div>
-        </div>
-
-        {error && (
-          <p className="text-red-600 text-sm text-center mb-3">{error}</p>
-        )}
-
-        <button
-          type="submit"
-          className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 mt-4 rounded-lg transition-all duration-200 shadow-md"
-        >
-          Register
-        </button>
-
-        <p className="text-center text-gray-600 text-sm mt-4">
-          Already have an account?{" "}
-          <span
-            className="text-green-600 cursor-pointer hover:underline"
-            onClick={() => router.push("/login")}
-          >
-            Login
-          </span>
-        </p>
-        <button
-          className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-1 mt-4 rounded-lg transition-all duration-200 shadow-md cursor-pointer"
-          onClick={() => signIn("google", { redirectTo: "/" })}
-        >
-          Continue with Google
-        </button>
-      </form>
+              <Controller
+                name="password"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid} className="gap-1">
+                    <FieldLabel htmlFor="form-password">
+                      Password <span className="text-destructive">*</span>
+                    </FieldLabel>
+                    <InputGroup>
+                      <InputGroupAddon align="inline-start">
+                        <LockIcon />
+                      </InputGroupAddon>
+                      <InputGroupInput
+                        {...field}
+                        id="form-password"
+                        aria-invalid={fieldState.invalid}
+                        placeholder="At least 8 characters"
+                        autoComplete="off"
+                        type={showPassword ? "text" : "password"}
+                      />
+                      <InputGroupAddon
+                        align="inline-end"
+                        className="cursor-pointer"
+                      >
+                        {showPassword ? (
+                          <EyeOffIcon onClick={() => setShowPassword(false)} />
+                        ) : (
+                          <EyeIcon onClick={() => setShowPassword(true)} />
+                        )}
+                      </InputGroupAddon>
+                    </InputGroup>
+                    {fieldState.invalid && (
+                      <FieldError
+                        errors={[fieldState.error]}
+                        className="text-xs"
+                      />
+                    )}
+                  </Field>
+                )}
+              />
+            </FieldGroup>
+          </form>
+        </CardContent>
+        <CardFooter>
+          <Field>
+            <Button
+              type="submit"
+              form="form-register"
+              className="bg-green-600 hover:bg-green-700 text-white transition-all duration-200 shadow-md cursor-pointer"
+            >
+              Register
+            </Button>
+            <div className="flex items-center justify-center gap-2 text-sm">
+              Or continue with
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => signIn("google", { redirectTo: "/" })}
+                className="p-3 cursor-pointer"
+              >
+                <Image src={google} alt="google" width={16} height={16} />
+              </Button>
+            </div>
+            <p className="text-center text-gray-600 text-sm">
+              Already have an account?{" "}
+              <span
+                className="text-green-600 cursor-pointer hover:underline"
+                onClick={() => router.push("/login")}
+              >
+                Login
+              </span>
+            </p>
+          </Field>
+        </CardFooter>
+      </Card>
     </div>
   );
 }

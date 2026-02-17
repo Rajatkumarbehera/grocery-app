@@ -1,10 +1,11 @@
-import LoginForm from '@/components/LoginForm'
-import React from 'react'
+import LoginForm from "@/components/LoginForm";
+import Welcome from "@/components/Welcome";
 
-export default function Login() {
+export default function LoginPage() {
   return (
-    <div>
-        <LoginForm />
+    <div className="grid grid-cols-2 min-h-screen">
+      <Welcome />
+      <LoginForm />
     </div>
-  )
+  );
 }

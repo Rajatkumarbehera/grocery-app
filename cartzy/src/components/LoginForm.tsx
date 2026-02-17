@@ -4,6 +4,7 @@ import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { Button } from "./ui/button";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -43,7 +44,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-linear-to-br from-green-50 to-yellow-50 p-6">
+    <div className="flex items-center justify-center bg-linear-to-br from-green-50 to-yellow-50 p-6">
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow-xl rounded-2xl p-8 max-w-md w-full border border-green-100 animate-fade-in-down"
@@ -105,13 +106,18 @@ export default function LoginForm() {
           <p className="text-red-600 text-sm text-center mb-3">{error}</p>
         )}
 
-        <button
+        {/* <button
           type="submit"
           className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 mt-4 rounded-lg transition-all duration-200 shadow-md"
         >
           Login
-        </button>
-
+        </button> */}
+        <Button
+          type="submit"
+          className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 mt-4 rounded-lg transition-all duration-200 shadow-md"
+        >
+          Login
+        </Button>
         <p className="text-center text-gray-600 text-sm mt-4">
           Don't have an account?{" "}
           <span
@@ -122,12 +128,21 @@ export default function LoginForm() {
           </span>
         </p>
 
-        <button
+        <Button
+          type="button"
+          className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-1 mt-4 rounded-lg transition-all duration-200 shadow-md cursor-pointer"
+          onClick={() => signIn("google", { redirectTo: "/" })}
+        >
+          {" "}
+          Continue with Google
+        </Button>
+
+        {/* <button
           className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-1 mt-4 rounded-lg transition-all duration-200 shadow-md cursor-pointer"
           onClick={() => signIn("google", { redirectTo: "/" })}
         >
           Continue with Google
-        </button>
+        </button> */}
       </form>
     </div>
   );

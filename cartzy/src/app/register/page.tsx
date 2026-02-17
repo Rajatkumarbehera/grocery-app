@@ -1,18 +1,11 @@
-"use client";
-
 import RegisterForm from "@/components/RegisterForm";
 import Welcome from "@/components/Welcome";
-import { useState } from "react";
 
-export default function Register() {
-  const [isWelcome, setIsWelcome] = useState(true);
+export default function RegisterPage() {
   return (
-    <div>
-      {isWelcome ? (
-        <Welcome setIsWelcome={setIsWelcome} />
-      ) : (
-        <RegisterForm setIsWelcome={setIsWelcome} />
-      )}
+    <div className="grid grid-cols-2 min-h-screen">
+      <Welcome />
+      <RegisterForm />
     </div>
   );
 }
