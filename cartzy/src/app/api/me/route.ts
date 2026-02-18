@@ -11,13 +11,12 @@ export async function GET(request: NextRequest) {
     if (!session || !session.user) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
+
     const user = await User.findOne({ email: session.user.email })
-      .select("-password")
-      .lean();
 
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
-    }
+    }    
 
     return NextResponse.json(user, { status: 200 });
   } catch (error) {

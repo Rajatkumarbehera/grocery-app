@@ -28,8 +28,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const email = credentials.email;
         const password = credentials.password as string;
 
-        const user = await User.findOne({ email });
-        
+        const user = await User.findOne({ email }).select("+password");
+
         if (!user) {
           throw new Error("Invalid credentials");
         }
