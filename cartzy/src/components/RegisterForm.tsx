@@ -32,6 +32,8 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
 export default function RegisterForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -42,6 +44,7 @@ export default function RegisterForm() {
   });
 
   const onSubmit = async (data: z.infer<typeof registerSchema>) => {
+    setLoading(true);
     try {
       const res = await axios.post("/api/auth/register", data);
 
@@ -53,6 +56,8 @@ export default function RegisterForm() {
       console.log(err);
       const message = err.response?.data?.message || "Something went wrong.";
       toast.error(message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -173,6 +178,7 @@ export default function RegisterForm() {
         <CardFooter>
           <Field>
             <Button
+              disabled={loading}
               type="submit"
               form="form-register"
               className="bg-green-600 hover:bg-green-700 text-white transition-all duration-200 shadow-md cursor-pointer"

@@ -26,6 +26,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
 export default function LoginForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -35,6 +36,7 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+    setLoading(true);
     try {
       const res = await signIn("credentials", { ...data, redirect: false });
       console.log(res);
@@ -48,6 +50,8 @@ export default function LoginForm() {
       console.log(err);
       const message = "Something went wrong.";
       toast.error(message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -142,6 +146,7 @@ export default function LoginForm() {
         <CardFooter>
           <Field>
             <Button
+              disabled={loading}
               type="submit"
               form="form-login"
               className="bg-green-600 hover:bg-green-700 text-white transition-all duration-200 shadow-md cursor-pointer"
