@@ -2,11 +2,11 @@
 import LiveMap from "@/components/LiveMap";
 import { getSocket } from "@/lib/socket";
 import { RootState } from "@/redux/store";
-import { User } from "@/types/user";
+import { UserClient } from "@/types/user";
 import axios from "axios";
 import mongoose from "mongoose";
 import { useParams, useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
 interface Order {
@@ -37,7 +37,7 @@ interface Order {
   };
   status: "pending" | "out of delivery" | "delivered";
   assignment?: mongoose.Types.ObjectId;
-  assignedDeliveryBoy?: User;
+  assignedDeliveryBoy?: UserClient;
   createdAt: string;
 }
 
@@ -50,7 +50,7 @@ interface Message {
   _id?: mongoose.Types.ObjectId;
   roomId: mongoose.Types.ObjectId;
   text: string;
-  senderId: mongoose.Types.ObjectId;
+  senderId: string;
   time: string;
   createdAt?: Date;
   updatedAt?: Date;

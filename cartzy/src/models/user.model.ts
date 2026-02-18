@@ -1,23 +1,28 @@
-import type { User } from "@/types/user";
+import { UserDocument } from "@/types/user";
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema<User>(
+const userSchema = new mongoose.Schema<UserDocument>(
   {
     name: {
       type: String,
       required: true,
+      trim: true, 
     },
     email: {
       type: String,
       unique: true,
       required: true,
+      lowercase: true,              
+      trim: true,
     },
     password: {
       type: String,
       required: false,
+      select: false,
     },
     image: {
       type: String,
+      required: false,
     },
     mobile: {
       type: String,
@@ -36,7 +41,7 @@ const userSchema = new mongoose.Schema<User>(
     },
     role: {
       type: String,
-      enum: ["customer", "restaurant", "delivery_partner", "admin"],
+      enum: ["admin", "customer", "delivery_partner", "restaurant"],
       default: "customer",
     },
     socketId: {

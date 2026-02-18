@@ -1,18 +1,8 @@
+import { UserClient } from "@/types/user";
 import { createSlice } from "@reduxjs/toolkit";
-import mongoose from "mongoose";
-
-interface User {
-  _id?: mongoose.Types.ObjectId;
-  name: string;
-  email: string;
-  password: string;
-  image?: string;
-  mobile?: string;
-  role: "customer" | "restaurant" | "delivery_partner" | "admin";
-}
 
 interface UserState {
-  userData: User | null;
+  userData: UserClient | null;
 }
 
 const initialState: UserState = {

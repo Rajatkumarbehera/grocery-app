@@ -21,7 +21,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           placeholder: "*****",
         },
       },
-      // This function runs when user clicks "Login button" with email/password.
+      // Runs when user clicks "Login button" with email/password.
       authorize: async (credentials) => {
         await connectDB();
 
@@ -29,6 +29,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const password = credentials.password as string;
 
         const user = await User.findOne({ email });
+        
         if (!user) {
           throw new Error("Invalid credentials");
         }
@@ -91,7 +92,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
   },
-  // Redirects users to /login instead of default NextAuth UI
+  // Redirects user to /login instead of default NextAuth UI
   pages: {
     signIn: "/login",
     error: "/login",

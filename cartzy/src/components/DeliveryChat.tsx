@@ -5,14 +5,14 @@ import { useEffect, useRef, useState } from "react";
 
 interface Chat {
   orderId: mongoose.Types.ObjectId;
-  deliveryBoyId: mongoose.Types.ObjectId;
+  deliveryBoyId: string;
 }
 
 interface Message {
   _id?: mongoose.Types.ObjectId;
   roomId: mongoose.Types.ObjectId;
   text: string;
-  senderId: mongoose.Types.ObjectId;
+  senderId: string;
   time: string;
   createdAt?: Date;
   updatedAt?: Date;

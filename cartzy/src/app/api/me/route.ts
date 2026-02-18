@@ -1,28 +1,30 @@
 import { auth } from "@/auth";
+import connectDB from "@/lib/db";
 import User from "@/models/user.model";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
+    await connectDB();
     const session = await auth();
 
     if (!session || !session.user) {
-      return NextResponse.json({ message: "user not found" }, { status: 400 });
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-    const user = await User.findOne({ email: session?.user?.email }).select(
-      "-password"
-    );
+    const user = await User.findOne({ email: session.user.email })
+      .select("-password")
+      .lean();
 
     if (!user) {
-      return NextResponse.json({ message: "user not found" }, { status: 400 });
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
-    console.log("User notfound Error:", error);
+    console.error("GET /api/me error:", error);
     return NextResponse.json(
-      { message: "User not found Error" },
-      { status: 500 }
+      { message: "Internal server error" },
+      { status: 500 },
     );
   }
 }

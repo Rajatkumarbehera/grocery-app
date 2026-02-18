@@ -1,7 +1,7 @@
 "use client";
 
-import User from "@/models/user.model";
 import { RootState } from "@/redux/store";
+import { UserClient } from "@/types/user";
 import { LogOut, ShoppingCart, User2 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
@@ -11,10 +11,12 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 interface NavbarProps {
-  user: User;
+  user: UserClient;
 }
 
 export default function Navbar({ user }: NavbarProps) {
+  console.log(user);
+  
   const router = useRouter();
   const [search, setSearch] = useState("");
   const { cartData } = useSelector((state: RootState) => state.cart);

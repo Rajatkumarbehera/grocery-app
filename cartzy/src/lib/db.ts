@@ -1,15 +1,17 @@
 import mongoose from "mongoose";
 
-const mongoUri = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!mongoUri) {
-  throw new Error("MONGODB_URI is missing in .env");
+if (!MONGODB_URI) {
+  throw new Error(
+    "Please define the MONGODB_URI environment variable in .env.local",
+  );
 }
 
-let cached = global.mongoose;
+let cached = global.mongooseCache;
 
 if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+  cached = global.mongooseCache = { conn: null, promise: null };
 }
 
 const connectDB = async () => {
@@ -19,14 +21,15 @@ const connectDB = async () => {
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(mongoUri)
-      .then((conn) => {
+      .connect(MONGODB_URI)
+      .then((m) => {
         console.log("MongoDB Connected");
-        return conn.connection;
+        return m.connection;
       })
-      .catch((error) => {
-        console.log("MongoDB connection error:", error);
-        throw error;
+      .catch((err) => {
+        console.log("MongoDB connection failed:", err);
+        cached.promise = null;
+        throw err;
       });
   }
 
