@@ -1,5 +1,24 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 import { registerSchema } from "@/schemas/register.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -17,17 +36,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import google from "../../public/google.png";
-import { Button } from "./ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
-import { Field, FieldError, FieldGroup, FieldLabel } from "./ui/field";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
+import google from "../../../public/google.png";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -46,15 +55,15 @@ export default function RegisterForm() {
   const onSubmit = async (data: z.infer<typeof registerSchema>) => {
     setLoading(true);
     try {
-      const res = await axios.post("/api/auth/register", data);
+      const result = await axios.post("/api/auth/register", data);
 
-      if (res.status === 200) {
-        toast.success(res.data.message);
+      if (result.status === 200) {
+        toast.success(result.data.message);
         router.push("/login");
       }
-    } catch (err: any) {
-      console.log(err);
-      const message = err.response?.data?.message || "Something went wrong.";
+    } catch (error: any) {
+      console.log(error);
+      const message = error.response?.data?.message || "Something went wrong.";
       toast.error(message);
     } finally {
       setLoading(false);

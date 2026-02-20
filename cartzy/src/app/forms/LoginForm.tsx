@@ -1,5 +1,25 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 import { loginSchema } from "@/schemas/login.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EyeIcon, EyeOffIcon, LockIcon, MailIcon } from "lucide-react";
@@ -10,18 +30,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import google from "../../public/google.png";
-import { Button } from "./ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
-import { Field, FieldError, FieldGroup, FieldLabel } from "./ui/field";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
+import google from "../../../public/google.png";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -38,16 +47,16 @@ export default function LoginForm() {
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     setLoading(true);
     try {
-      const res = await signIn("credentials", { ...data, redirect: false });
-      console.log(res);
+      const result = await signIn("credentials", { ...data, redirect: false });
+      console.log(result);
 
-      if (res?.error) {
+      if (result?.error) {
         toast.error("Invalid email or password.");
         return;
       }
       router.push("/");
-    } catch (err: any) {
-      console.log(err);
+    } catch (error: any) {
+      console.log(error);
       const message = "Something went wrong.";
       toast.error(message);
     } finally {

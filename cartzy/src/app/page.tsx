@@ -2,14 +2,15 @@ import { auth } from "@/auth";
 import AdminDashboard from "@/components/AdminDashboard";
 import CustomerDashboard from "@/components/CustomerDashboard";
 import DeliveryBoy from "@/components/DeliveryBoy";
-import EditRoleMobile from "@/components/EditRoleMobile";
 import Footer from "@/components/Footer";
 import GeoUpdater from "@/components/GeoUpdater";
 import Navbar from "@/components/Navbar";
+import { checkAdminExists } from "@/lib/admin";
 import connectDB from "@/lib/db";
 import Grocery from "@/models/grocery.model";
 import User from "@/models/user.model";
 import { redirect } from "next/navigation";
+import OnboardingForm from "./forms/OnboardingForm";
 
 export default async function Home(props: {
   searchParams: Promise<{
@@ -21,19 +22,16 @@ export default async function Home(props: {
 
   await connectDB();
   const session = await auth();
-  const user = await User.findById(session?.user?.id);
-  console.log(user);
+  const user = await User.findOne({ email: session?.user?.email });
 
   if (!user) {
     redirect("/login");
   }
 
-  const inComplete =
-    !user.mobile || !user.role || (!user.mobile && user.role === "customer");
-  // console.log(inComplete);
-
+  const inComplete = !user.mobile || !user.role;
   if (inComplete) {
-    return <EditRoleMobile />;
+    const adminExists = await checkAdminExists();
+    return <OnboardingForm adminExists={!!adminExists} />;
   }
 
   const plainUser = JSON.parse(JSON.stringify(user));

@@ -12,19 +12,22 @@ export async function POST(request: NextRequest) {
     const user = await User.findOneAndUpdate(
       { email: session?.user?.email },
       { role, mobile },
-      { new: true }
+      { new: true },
     );
 
     if (!user) {
-      return NextResponse.json({ message: "user not found" }, { status: 400 });
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    return NextResponse.json(user, { status: 200 });
-  } catch (error) {
-    console.log("Edit role & mobile Error:", error);
     return NextResponse.json(
-      { message: "Edit role & mobile Error" },
-      { status: 500 }
+      { message: "Onboarding completed successfully", user },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.error("POST /api/user/onboarding error:", error);
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 },
     );
   }
 }
