@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     if (session?.user?.role !== "admin") {
       return NextResponse.json(
         { message: "You are not authorized" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     const name = formData.get("name") as string | null;
     const category = formData.get("category") as string | null;
     const unit = formData.get("unit") as string | null;
-    const price = formData.get("price") as string | null;
+    const price = Number(formData.get("price"));
     const file = formData.get("image") as Blob | null;
 
     let imageUrl;
@@ -40,13 +40,13 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       { grocery, message: "Grocery added successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Add Grocery API Error:", error);
     return NextResponse.json(
       { message: "Failed to add grocery" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

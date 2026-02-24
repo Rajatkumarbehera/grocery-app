@@ -13,18 +13,16 @@ export type User = {
   password: string;
   image: string;
   mobile: string;
-  // image?: string;
-  // mobile?: string;
   location: GeoLocation;
   role: UserRole;
   socketId: string | null;
   isOnline: boolean;
-  createdAt: Date;
-  updatedAt: Date;
 };
 
 export type UserDocument = User & {
   _id: mongoose.Types.ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type UserClient = Omit<User, "password"> & {

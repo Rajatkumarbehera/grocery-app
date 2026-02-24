@@ -1,19 +1,12 @@
+import { GroceryDocument } from "@/types/grocery";
 import mongoose from "mongoose";
 
-interface Grocery {
-  _id?: mongoose.Types.ObjectId;
-  name: string;
-  category: string;
-  price: string;
-  unit: string;
-  image: string;
-}
-
-const grocerySchema = new mongoose.Schema<Grocery>(
+const grocerySchema = new mongoose.Schema<GroceryDocument>(
   {
     name: {
       type: String,
       required: true,
+      trim: true,
     },
     category: {
       type: String,
@@ -21,8 +14,9 @@ const grocerySchema = new mongoose.Schema<Grocery>(
       enum: ["Fruits & Vegetables", "Dairy & Eggs", "Personal Care"],
     },
     price: {
-      type: String,
+      type: Number,
       required: true,
+      min: 0,
     },
     unit: {
       type: String,
@@ -34,7 +28,7 @@ const grocerySchema = new mongoose.Schema<Grocery>(
       required: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Grocery =

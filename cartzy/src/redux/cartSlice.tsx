@@ -1,18 +1,10 @@
+import { GroceryClient } from "@/types/grocery";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import mongoose from "mongoose";
 
-interface Cart {
-  _id?: mongoose.Types.ObjectId;
-  name: string;
-  category: string;
-  price: string;
-  unit: string;
-  image: string;
-  quantity: number;
-}
+type CartItem = GroceryClient & { quantity: number };
 
 interface CartState {
-  cartData: Cart[];
+  cartData: CartItem[];
   subTotal: number;
   deliveryFee: number;
   finalTotal: number;
@@ -29,40 +21,46 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    setCartData: (state, action: PayloadAction<Cart>) => {
-      state.cartData.push(action.payload);
+    addToCart: (state, action: PayloadAction<GroceryClient>) => {
+      const existingItem = state.cartData.find(
+        (i) => i._id === action.payload._id,
+      );
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        state.cartData.push({ ...action.payload, quantity: 1 });
+      }
       cartSlice.caseReducers.calculateTotal(state);
     },
-    increaseQuantity: (
-      state,
-      action: PayloadAction<mongoose.Types.ObjectId>
-    ) => {
+    increaseQuantity: (state, action: PayloadAction<string>) => {
       const item = state.cartData.find((i) => i._id === action.payload);
       if (item) {
         item.quantity += 1;
       }
       cartSlice.caseReducers.calculateTotal(state);
     },
-    decreaseQuantity: (
-      state,
-      action: PayloadAction<mongoose.Types.ObjectId>
-    ) => {
+    decreaseQuantity: (state, action: PayloadAction<string>) => {
       const item = state.cartData.find((i) => i._id === action.payload);
-      if (item?.quantity && item.quantity > 1) {
+      if (item && item.quantity > 1) {
         item.quantity -= 1;
       } else {
         state.cartData = state.cartData.filter((i) => i._id !== action.payload);
       }
       cartSlice.caseReducers.calculateTotal(state);
     },
-    removeFromCart: (state, action: PayloadAction<mongoose.Types.ObjectId>) => {
+    removeFromCart: (state, action: PayloadAction<string>) => {
       state.cartData = state.cartData.filter((i) => i._id !== action.payload);
+      cartSlice.caseReducers.calculateTotal(state);
+    },
+    clearCart: (state) => {
+      state.cartData = [];
       cartSlice.caseReducers.calculateTotal(state);
     },
     calculateTotal: (state) => {
       state.subTotal = state.cartData.reduce(
         (sum, item) => sum + Number(item.price) * item.quantity,
-        0
+        0,
       );
       state.deliveryFee = state.subTotal > 499 ? 0 : 49;
       state.finalTotal = state.subTotal + state.deliveryFee;
@@ -71,7 +69,7 @@ export const cartSlice = createSlice({
 });
 
 export const {
-  setCartData,
+  addToCart,
   increaseQuantity,
   decreaseQuantity,
   removeFromCart,

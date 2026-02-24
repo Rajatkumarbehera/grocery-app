@@ -15,7 +15,7 @@ export default function AddGrocery() {
   const [groceryName, setGroceryName] = useState("");
   const [category, setCategory] = useState("");
   const [unit, setUnit] = useState("");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState<number>(0);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
 
@@ -34,7 +34,7 @@ export default function AddGrocery() {
       formData.append("name", groceryName);
       formData.append("category", category);
       formData.append("unit", unit);
-      formData.append("price", price);
+      formData.append("price", price.toString());
       if (imageFile) {
         formData.append("image", imageFile);
       }
@@ -91,11 +91,12 @@ export default function AddGrocery() {
           </select>
         </div>
         <input
-          type="text"
+          min="0"
+          type="number"
           className="outline"
           placeholder="price"
           value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          onChange={(e) => setPrice(Number(e.target.value))}
         />
         <div>
           <input type="file" accept="image/*" onChange={handleImageChange} />

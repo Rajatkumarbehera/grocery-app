@@ -48,7 +48,6 @@ export default function LoginForm() {
     setLoading(true);
     try {
       const result = await signIn("credentials", { ...data, redirect: false });
-      console.log(result);
 
       if (result?.error) {
         toast.error("Invalid email or password.");

@@ -1,28 +1,21 @@
 "use client";
 
 import {
+  addToCart,
   decreaseQuantity,
   increaseQuantity,
-  setCartData,
 } from "@/redux/cartSlice";
 import { AppDispatch, RootState } from "@/redux/store";
+import { GroceryClient } from "@/types/grocery";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
-import mongoose from "mongoose";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 
-interface Grocery {
-  _id: mongoose.Types.ObjectId;
-  name: string;
-  category: string;
-  price: string;
-  unit: string;
-  image: string;
-}
-
-export default function GroceryItemCard({ item }: { item: Grocery }) {
+export default function GroceryItemCard({ item }: { item: GroceryClient }) {
   const dispatch = useDispatch<AppDispatch>();
   const { cartData } = useSelector((state: RootState) => state.cart);
+
+  console.log(cartData);
 
   const cartItem = cartData.find((i) => i._id === item._id);
 
@@ -39,7 +32,7 @@ export default function GroceryItemCard({ item }: { item: Grocery }) {
       {!cartItem ? (
         <button
           className="flex items-center justify-center cursor-pointer p-1 gap-2 border rounded-full bg-green-400 text-white"
-          onClick={() => dispatch(setCartData({ ...item, quantity: 1 }))}
+          onClick={() => dispatch(addToCart(item))}
         >
           Add to Cart <ShoppingCart className="h-5 w-5" />
         </button>
