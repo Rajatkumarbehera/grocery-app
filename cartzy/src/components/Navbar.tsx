@@ -96,16 +96,14 @@ export default function Navbar({ user }: NavbarProps) {
                 className="relative cursor-pointer h-10 w-10"
               >
                 <ShoppingCartIcon className="size-5" />
-                {cartData?.length > 0 && (
-                  <>
-                    <span className="absolute top-0 right-0 flex min-w-4 h-4 px-1 items-center justify-center rounded-full bg-green-600 text-[10px] text-white">
-                      {cartData.length}
-                    </span>
-                    <span className="absolute left-1/2 -bottom-2 -translate-x-1/2 text-xs">
-                      &#8377;{subTotal}
-                    </span>
-                  </>
-                )}
+                <>
+                  <span className="absolute top-0 right-0 flex min-w-4 h-4 px-1 items-center justify-center rounded-full bg-green-600 text-[10px] text-white">
+                    {cartData?.length > 0 ? cartData.length : 0}
+                  </span>
+                  <span className="absolute left-1/2 -bottom-2 -translate-x-1/2 text-xs">
+                    &#8377;{cartData?.length > 0 ? subTotal : 0}
+                  </span>
+                </>
               </Button>
             </Link>
           )}
