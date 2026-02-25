@@ -26,6 +26,8 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
+import Image from "next/image";
+import cartzy from "../../public/cartzy.jpeg";
 
 interface NavbarProps {
   user: UserClient | null;
@@ -57,10 +59,14 @@ export default function Navbar({ user }: NavbarProps) {
     <header className="sticky top-0 z-50 w-full border-b bg-white">
       <nav className="container mx-auto flex h-18 items-center justify-between px-10">
         <div className="flex items-center gap-6">
-          <Link href="/" className="text-2xl font-bold text-green-600">
+          {" "}
+          <Link
+            href="/"
+            className="text-2xl font-bold text-green-600 flex items-center"
+          >
+            <Image src={cartzy} alt="cartzy" height={52} width={52} />
             Cartzy
           </Link>
-
           {user?.role === "customer" && (
             <form onSubmit={handleSearch} className="relative hidden md:block">
               <InputGroup className="focus-visible:ring-0 focus-visible:ring-offset-0">
@@ -77,7 +83,6 @@ export default function Navbar({ user }: NavbarProps) {
               </InputGroup>
             </form>
           )}
-
           {user?.role === "admin" && (
             <div className="flex items-center gap-2">
               <Link href={"/admin/add-grocery"}>Add Grocery</Link> |

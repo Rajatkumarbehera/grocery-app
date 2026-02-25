@@ -1,0 +1,78 @@
+import {
+    Clock,
+    Leaf,
+    ShieldCheck,
+    Tag,
+    Truck
+} from "lucide-react";
+
+export const slides = [
+  {
+    id: 1,
+    icon: Leaf,
+    emoji: "🥬",
+    title: "Fresh Organic Groceries",
+    subtitle:
+      "Farm-fresh fruits, vegetables and daily essentials delivered to you.",
+    btnText: "Shop Now",
+    bg: "from-green-50 to-emerald-100",
+    accent: "bg-green-500",
+    iconBg: "bg-green-100 text-green-600",
+    btnStyle: "bg-green-600 hover:bg-green-700 text-white",
+    decoration: "bg-green-200",
+  },
+  {
+    id: 2,
+    icon: Truck,
+    emoji: "🚚",
+    title: "Fast & Reliable Delivery",
+    subtitle: "We ensure your groceries reach your doorstep in no time.",
+    btnText: "Order Now",
+    bg: "from-orange-50 to-amber-100",
+    accent: "bg-orange-500",
+    iconBg: "bg-orange-100 text-orange-600",
+    btnStyle: "bg-orange-500 hover:bg-orange-600 text-white",
+    decoration: "bg-orange-200",
+  },
+  {
+    id: 3,
+    icon: Tag,
+    emoji: "🏷️",
+    title: "Unbeatable Daily Deals",
+    subtitle:
+      "Save big every day with exclusive discounts on top grocery brands.",
+    btnText: "See Deals",
+    bg: "from-blue-50 to-sky-100",
+    accent: "bg-blue-500",
+    iconBg: "bg-blue-100 text-blue-600",
+    btnStyle: "bg-blue-600 hover:bg-blue-700 text-white",
+    decoration: "bg-blue-200",
+  },
+  {
+    id: 4,
+    icon: Clock,
+    emoji: "⚡",
+    title: "10-Minute Express Delivery",
+    subtitle:
+      "Order in seconds, receive in minutes. Lightning-fast to your door.",
+    btnText: "Order Express",
+    bg: "from-violet-50 to-purple-100",
+    accent: "bg-violet-500",
+    iconBg: "bg-violet-100 text-violet-600",
+    btnStyle: "bg-violet-600 hover:bg-violet-700 text-white",
+    decoration: "bg-violet-200",
+  },
+  {
+    id: 5,
+    icon: ShieldCheck,
+    emoji: "🛡️",
+    title: "100% Quality Guaranteed",
+    subtitle: "Not happy? We'll replace or refund — no questions asked.",
+    btnText: "Learn More",
+    bg: "from-rose-50 to-pink-100",
+    accent: "bg-rose-500",
+    iconBg: "bg-rose-100 text-rose-600",
+    btnStyle: "bg-rose-500 hover:bg-rose-600 text-white",
+    decoration: "bg-rose-200",
+  },
+];
