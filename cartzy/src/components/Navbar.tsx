@@ -28,6 +28,8 @@ import {
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
 import Image from "next/image";
 import cartzy from "../../public/cartzy1.png";
+import { AnimatedPlaceholder } from "./AnimatedPlaceholder";
+// import AnimatedPlaceholder from "./AnimatedPlaceholder";
 
 interface NavbarProps {
   user: UserClient | null;
@@ -70,18 +72,18 @@ export default function Navbar({ user }: NavbarProps) {
             </span>
           </Link>
           {user?.role === "customer" && (
-            <form onSubmit={handleSearch} className="relative hidden md:block">
+            <form onSubmit={handleSearch}>
               <InputGroup className="has-[[data-slot=input-group-control]:focus-visible]:ring-0 has-[[data-slot=input-group-control]:focus-visible]:border-input">
                 <InputGroupAddon align="inline-start">
                   <SearchIcon />
                 </InputGroupAddon>
                 <InputGroupInput
                   type="search"
-                  placeholder="Search category or name..."
-                  className="w-[350px]"
+                  className="w-[350px] "
                   onChange={(e) => setSearch(e.target.value)}
                   value={search}
                 />
+                <AnimatedPlaceholder show={search === ""} />
               </InputGroup>
             </form>
           )}
