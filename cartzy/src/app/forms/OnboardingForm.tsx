@@ -172,7 +172,7 @@ export default function OnboardingForm({ adminExists }: OnboardingFormProps) {
           disabled={loading}
           type="submit"
           form="form-onboarding"
-          className="bg-green-600 hover:bg-green-700 text-white transition-all duration-200 shadow-md cursor-pointer"
+          className="bg-green-600 hover:bg-green-700 text-white transition-all duration-200 shadow-md cursor-pointer active:scale-95"
         >
           Continue
         </Button>

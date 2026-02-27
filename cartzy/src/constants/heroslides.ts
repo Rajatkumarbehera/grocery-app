@@ -1,9 +1,9 @@
 import {
-    Clock,
-    Leaf,
-    ShieldCheck,
-    Tag,
-    Truck
+  Clock,
+  Leaf,
+  ShieldCheck,
+  Tag,
+  Truck,
 } from "lucide-react";
 
 export const slides = [
@@ -12,14 +12,16 @@ export const slides = [
     icon: Leaf,
     emoji: "🥬",
     title: "Fresh Organic Groceries",
-    subtitle:
-      "Farm-fresh fruits, vegetables and daily essentials delivered to you.",
+    subtitle: "Farm-fresh fruits, vegetables and daily essentials delivered to you.",
     btnText: "Shop Now",
     bg: "from-green-50 to-emerald-100",
     accent: "bg-green-500",
     iconBg: "bg-green-100 text-green-600",
     btnStyle: "bg-green-600 hover:bg-green-700 text-white",
     decoration: "bg-green-200",
+    tag: "Farm Fresh",
+    tagStyle: "bg-green-100 text-green-700",
+    offerNote: "Free delivery on first order",
   },
   {
     id: 2,
@@ -33,34 +35,41 @@ export const slides = [
     iconBg: "bg-orange-100 text-orange-600",
     btnStyle: "bg-orange-500 hover:bg-orange-600 text-white",
     decoration: "bg-orange-200",
+    tag: "Lightning Fast",
+    tagStyle: "bg-orange-100 text-orange-700",
+    offerNote: "Delivers in under 30 mins",
   },
   {
     id: 3,
     icon: Tag,
     emoji: "🏷️",
     title: "Unbeatable Daily Deals",
-    subtitle:
-      "Save big every day with exclusive discounts on top grocery brands.",
+    subtitle: "Save big every day with exclusive discounts on top grocery brands.",
     btnText: "See Deals",
     bg: "from-blue-50 to-sky-100",
     accent: "bg-blue-500",
     iconBg: "bg-blue-100 text-blue-600",
     btnStyle: "bg-blue-600 hover:bg-blue-700 text-white",
     decoration: "bg-blue-200",
+    tag: "Today's Deal",
+    tagStyle: "bg-blue-100 text-blue-700",
+    offerNote: "Up to 40% off selected items",
   },
   {
     id: 4,
     icon: Clock,
     emoji: "⚡",
     title: "10-Minute Express Delivery",
-    subtitle:
-      "Order in seconds, receive in minutes. Lightning-fast to your door.",
+    subtitle: "Order in seconds, receive in minutes. Lightning-fast to your door.",
     btnText: "Order Express",
     bg: "from-violet-50 to-purple-100",
     accent: "bg-violet-500",
     iconBg: "bg-violet-100 text-violet-600",
     btnStyle: "bg-violet-600 hover:bg-violet-700 text-white",
     decoration: "bg-violet-200",
+    tag: "Express",
+    tagStyle: "bg-violet-100 text-violet-700",
+    offerNote: "Available 7 AM – 11 PM daily",
   },
   {
     id: 5,
@@ -74,5 +83,8 @@ export const slides = [
     iconBg: "bg-rose-100 text-rose-600",
     btnStyle: "bg-rose-500 hover:bg-rose-600 text-white",
     decoration: "bg-rose-200",
+    tag: "Quality Promise",
+    tagStyle: "bg-rose-100 text-rose-700",
+    offerNote: "No questions asked returns",
   },
 ];

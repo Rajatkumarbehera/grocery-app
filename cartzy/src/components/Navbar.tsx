@@ -27,7 +27,7 @@ import {
 } from "./ui/dropdown-menu";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
 import Image from "next/image";
-import cartzy from "../../public/cartzy.jpeg";
+import cartzy from "../../public/cartzy1.png";
 
 interface NavbarProps {
   user: UserClient | null;
@@ -65,11 +65,13 @@ export default function Navbar({ user }: NavbarProps) {
             className="text-2xl font-bold text-green-600 flex items-center"
           >
             <Image src={cartzy} alt="cartzy" height={52} width={52} />
-            Cartzy
+            <span className="text-2xl font-black tracking-tight bg-linear-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
+              cartzy
+            </span>
           </Link>
           {user?.role === "customer" && (
             <form onSubmit={handleSearch} className="relative hidden md:block">
-              <InputGroup className="focus-visible:ring-0 focus-visible:ring-offset-0">
+              <InputGroup className="has-[[data-slot=input-group-control]:focus-visible]:ring-0 has-[[data-slot=input-group-control]:focus-visible]:border-input">
                 <InputGroupAddon align="inline-start">
                   <SearchIcon />
                 </InputGroupAddon>

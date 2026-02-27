@@ -86,7 +86,7 @@ export default function LoginForm() {
                     <FieldLabel htmlFor="form-email">
                       Email Address <span className="text-destructive">*</span>
                     </FieldLabel>
-                    <InputGroup>
+                    <InputGroup className="has-[[data-slot=input-group-control]:focus-visible]:ring-0 has-[[data-slot=input-group-control]:focus-visible]:border-input">
                       <InputGroupAddon align="inline-start">
                         <MailIcon />
                       </InputGroupAddon>
@@ -116,7 +116,7 @@ export default function LoginForm() {
                     <FieldLabel htmlFor="form-password">
                       Password <span className="text-destructive">*</span>
                     </FieldLabel>
-                    <InputGroup>
+                    <InputGroup className="has-[[data-slot=input-group-control]:focus-visible]:ring-0 has-[[data-slot=input-group-control]:focus-visible]:border-input">
                       <InputGroupAddon align="inline-start">
                         <LockIcon />
                       </InputGroupAddon>
@@ -157,7 +157,7 @@ export default function LoginForm() {
               disabled={loading}
               type="submit"
               form="form-login"
-              className="bg-green-600 hover:bg-green-700 text-white transition-all duration-200 shadow-md cursor-pointer"
+              className="bg-green-600 hover:bg-green-700 text-white transition-all duration-200 shadow-md cursor-pointer active:scale-95"
             >
               Login
             </Button>

@@ -89,7 +89,7 @@ export default function RegisterForm() {
                     <FieldLabel htmlFor="form-name">
                       Full Name <span className="text-destructive">*</span>
                     </FieldLabel>
-                    <InputGroup>
+                    <InputGroup className="has-[[data-slot=input-group-control]:focus-visible]:ring-0 has-[[data-slot=input-group-control]:focus-visible]:border-input">
                       <InputGroupAddon align="inline-start">
                         <UserIcon />
                       </InputGroupAddon>
@@ -119,7 +119,7 @@ export default function RegisterForm() {
                     <FieldLabel htmlFor="form-email">
                       Email Address <span className="text-destructive">*</span>
                     </FieldLabel>
-                    <InputGroup>
+                    <InputGroup className="has-[[data-slot=input-group-control]:focus-visible]:ring-0 has-[[data-slot=input-group-control]:focus-visible]:border-input">
                       <InputGroupAddon align="inline-start">
                         <MailIcon />
                       </InputGroupAddon>
@@ -149,7 +149,7 @@ export default function RegisterForm() {
                     <FieldLabel htmlFor="form-password">
                       Password <span className="text-destructive">*</span>
                     </FieldLabel>
-                    <InputGroup>
+                    <InputGroup className="has-[[data-slot=input-group-control]:focus-visible]:ring-0 has-[[data-slot=input-group-control]:focus-visible]:border-input">
                       <InputGroupAddon align="inline-start">
                         <LockIcon />
                       </InputGroupAddon>
@@ -190,7 +190,7 @@ export default function RegisterForm() {
               disabled={loading}
               type="submit"
               form="form-register"
-              className="bg-green-600 hover:bg-green-700 text-white transition-all duration-200 shadow-md cursor-pointer"
+              className="bg-green-600 hover:bg-green-700 text-white transition-all duration-200 shadow-md cursor-pointer active:scale-95"
             >
               Register
             </Button>
