@@ -35,7 +35,7 @@ export const cartSlice = createSlice({
     },
     increaseQuantity: (state, action: PayloadAction<string>) => {
       const item = state.cartData.find((i) => i._id === action.payload);
-      if (item) {
+      if (item && item.quantity < 10) {
         item.quantity += 1;
       }
       cartSlice.caseReducers.calculateTotal(state);

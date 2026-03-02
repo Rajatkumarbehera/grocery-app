@@ -1,9 +1,11 @@
+import Navbar from "@/components/layout/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import UserProvider from "@/providers/UserProvider";
 import type { Metadata } from "next";
 import InitUser from "../InitUser";
 import SessionProvider from "../providers/SessionProvider";
 import "./globals.css";
+import Footer from "@/components/layout/Footer";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -35,9 +37,11 @@ export default function RootLayout({
       >
         <SessionProvider>
           <UserProvider>
+            {/* <Navbar /> */}
             <InitUser />
             <Toaster richColors />
             {children}
+            {/* <Footer /> */}
           </UserProvider>
         </SessionProvider>
       </body>

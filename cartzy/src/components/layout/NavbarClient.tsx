@@ -10,12 +10,15 @@ import {
   UserIcon,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
+import cartzy from "../../../public/cartzy1.png";
+import { AnimatedPlaceholder } from "../AnimatedPlaceholder";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,17 +27,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
-import Image from "next/image";
-import cartzy from "../../public/cartzy1.png";
-import { AnimatedPlaceholder } from "./AnimatedPlaceholder";
+} from "../ui/dropdown-menu";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "../ui/input-group";
 
 interface NavbarProps {
   user: UserClient | null;
 }
 
-export default function Navbar({ user }: NavbarProps) {
+export default function NavbarClient({ user }: NavbarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("q") || "");
@@ -53,7 +57,7 @@ export default function Navbar({ user }: NavbarProps) {
       router.push("/");
       return;
     }
-    router.push(`/?q=${encodeURIComponent(q)}`);
+    router.push(`/search?q=${encodeURIComponent(q)}`);
   };
 
   return (
@@ -108,24 +112,24 @@ export default function Navbar({ user }: NavbarProps) {
             </Link>
           )}
 
-          {/* {user?.role === "customer" && ( */}
-          <Link href="/user/cart">
-            <Button
-              variant="link"
-              className="relative cursor-pointer h-10 w-10"
-            >
-              <ShoppingCartIcon className="size-5" />
-              <>
-                <span className="absolute top-0 right-0 flex min-w-4 h-4 px-1 items-center justify-center rounded-full bg-green-600 text-[10px] text-white">
-                  {cartData?.length > 0 ? cartData.length : 0}
-                </span>
-                <span className="absolute left-1/2 -bottom-2 -translate-x-1/2 text-xs">
-                  &#8377;{cartData?.length > 0 ? subTotal : 0}
-                </span>
-              </>
-            </Button>
-          </Link>
-          {/* )} */}
+          {user?.role !== "admin" && user?.role !== "delivery_partner" && (
+            <Link href="/user/cart">
+              <Button
+                variant="link"
+                className="relative cursor-pointer h-10 w-10"
+              >
+                <ShoppingCartIcon className="size-5" />
+                <>
+                  <span className="absolute top-0 right-0 flex min-w-4 h-4 px-1 items-center justify-center rounded-full bg-green-600 text-[10px] text-white">
+                    {cartData?.length > 0 ? cartData.length : 0}
+                  </span>
+                  <span className="absolute left-1/2 -bottom-2 -translate-x-1/2 text-xs">
+                    &#8377;{cartData?.length > 0 ? subTotal : 0}
+                  </span>
+                </>
+              </Button>
+            </Link>
+          )}
 
           {user && (
             <DropdownMenu>

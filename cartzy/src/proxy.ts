@@ -3,23 +3,37 @@ import { auth } from "./auth";
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  const response = NextResponse.next();
+  const session = await auth();
 
-  const legacyPrefixes = ["/login", "/register"];
+  if (!session) {
+    const guestId = req.cookies.get("guestId")?.value;
+    console.log("before", guestId);
 
-  if (legacyPrefixes.some((prefix) => pathname.startsWith(prefix))) {
-    return NextResponse.next();
+    if (!guestId) {
+      response.cookies.set("guestId", crypto.randomUUID(), {
+        httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60, // 7 days
+        path: "/",
+      });
+    }
+    console.log("after", guestId);
   }
 
-  const session = await auth();
-  
+  const legacyPrefixes = ["/", "/login", "/register", "/user/cart", "/search"];
+
+  if (legacyPrefixes.some((prefix) => pathname === prefix)) {
+    return response;
+  }
+
   if (!session) {
-    const loginUrl = new URL("/login", req.url);
-    loginUrl.searchParams.set("redirectTo", req.url);
-    return NextResponse.redirect(loginUrl);
+    const redirectUrl = new URL("/login", req.url);
+    redirectUrl.searchParams.set("redirectTo", req.url);
+    return NextResponse.redirect(redirectUrl);
   }
 
   const role = session?.user?.role;
-  
+
   if (pathname.startsWith("/admin") && role !== "admin") {
     return NextResponse.redirect(new URL("/unauthorized", req.url));
   }
@@ -30,7 +44,7 @@ export async function proxy(req: NextRequest) {
     return NextResponse.redirect(new URL("/unauthorized", req.url));
   }
 
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {

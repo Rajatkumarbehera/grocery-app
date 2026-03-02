@@ -1,3 +1,5 @@
+"use client";
+
 import { categories } from "@/constants/categories";
 import { perks } from "@/constants/perks";
 import { quicklinks } from "@/constants/quicklinks";
@@ -5,13 +7,16 @@ import { socials } from "@/constants/socials";
 import { ArrowRight, Mail, MapPin, Phone, SearchIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import cartzy from "../../public/cartzy1.png";
-import { Badge } from "./ui/badge";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { ButtonGroup } from "./ui/button-group";
+import cartzy from "../../../public/cartzy1.png";
+import { Badge } from "../ui/badge";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { ButtonGroup } from "../ui/button-group";
 
 export default function Footer() {
+  const handleFutureUpdates = (e: React.FormEvent) => {
+    e.preventDefault();
+  };
   return (
     <footer className="relative bg-white text-gray-800 overflow-hidden border-t border-gray-300 mt-10">
       <div className="relative border-b border-gray-300 bg-green-50">
@@ -66,9 +71,7 @@ export default function Footer() {
               <p className="text-xs font-semibold uppercase tracking-widest text-green-600 mb-2">
                 Get fresh deals
               </p>
-              <form
-              // onSubmit={handleSearch}
-              >
+              <form onSubmit={handleFutureUpdates}>
                 <ButtonGroup className="w-full">
                   <Input
                     type="email"

@@ -224,7 +224,6 @@
 }
 
 /* animation for placeholder texts */
-
 @keyframes slide-up {
   from {
     transform: translateY(0);
