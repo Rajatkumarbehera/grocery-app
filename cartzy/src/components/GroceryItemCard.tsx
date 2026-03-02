@@ -40,7 +40,7 @@ export default function GroceryItemCard({ item }: { item: GroceryClient }) {
     >
       <div className="relative w-full aspect-square flex items-center justify-center bg-linear-to-br from-gray-50 to-green-50/30 overflow-hidden group cursor-pointer">
         <div
-          className="absolute top-3 left-0 z-10 text-white text-[10px] font-bold px-2 pr-6 py-0.5 uppercase tracking-wide shadow-sm overflow-hidden bg-green-500 flex flex-col leading-tight"
+          className="absolute top-3 left-0 z-10 text-white text-[9px] font-bold px-2 pr-4 py-0.5 uppercase tracking-wide shadow-sm overflow-hidden bg-green-500 flex flex-col leading-tight"
           style={{
             clipPath: "polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%)",
           }}

@@ -13,7 +13,7 @@ interface CartState {
 const initialState: CartState = {
   cartData: [],
   subTotal: 0,
-  deliveryFee: 40,
+  deliveryFee: 49,
   finalTotal: 40,
 };
 
@@ -73,6 +73,7 @@ export const {
   increaseQuantity,
   decreaseQuantity,
   removeFromCart,
+  clearCart,
   calculateTotal,
 } = cartSlice.actions;
 export default cartSlice.reducer;
