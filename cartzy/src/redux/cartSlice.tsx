@@ -1,7 +1,7 @@
 import { GroceryClient } from "@/types/grocery";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type CartItem = GroceryClient & { quantity: number };
+export type CartItem = GroceryClient & { quantity: number };
 
 interface CartState {
   cartData: CartItem[];

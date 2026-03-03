@@ -12,7 +12,7 @@ import {
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import cartzy from "../../../public/cartzy1.png";
@@ -40,10 +40,11 @@ interface NavbarProps {
 
 export default function NavbarClient({ user }: NavbarProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("q") || "");
   const { cartData, subTotal } = useSelector((state: RootState) => state.cart);
-
+  const isCheckoutPath = pathname === "/user/checkout";
   console.log(cartData);
 
   useEffect(() => {
@@ -74,22 +75,24 @@ export default function NavbarClient({ user }: NavbarProps) {
               cartzy
             </span>
           </Link>
-          {user?.role !== "admin" && user?.role !== "delivery_partner" && (
-            <form onSubmit={handleSearch}>
-              <InputGroup className="has-[[data-slot=input-group-control]:focus-visible]:ring-0 has-[[data-slot=input-group-control]:focus-visible]:border-input">
-                <InputGroupAddon align="inline-start">
-                  <SearchIcon />
-                </InputGroupAddon>
-                <InputGroupInput
-                  type="search"
-                  className="w-[350px] "
-                  onChange={(e) => setSearch(e.target.value)}
-                  value={search}
-                />
-                <AnimatedPlaceholder show={search === ""} />
-              </InputGroup>
-            </form>
-          )}
+          {!isCheckoutPath &&
+            user?.role !== "admin" &&
+            user?.role !== "delivery_partner" && (
+              <form onSubmit={handleSearch}>
+                <InputGroup className="has-[[data-slot=input-group-control]:focus-visible]:ring-0 has-[[data-slot=input-group-control]:focus-visible]:border-input">
+                  <InputGroupAddon align="inline-start">
+                    <SearchIcon />
+                  </InputGroupAddon>
+                  <InputGroupInput
+                    type="search"
+                    className="w-[350px] "
+                    onChange={(e) => setSearch(e.target.value)}
+                    value={search}
+                  />
+                  <AnimatedPlaceholder show={search === ""} />
+                </InputGroup>
+              </form>
+            )}
           {user?.role === "admin" && (
             <div className="flex items-center gap-2">
               <Link href={"/admin/add-grocery"}>Add Grocery</Link> |
@@ -112,26 +115,28 @@ export default function NavbarClient({ user }: NavbarProps) {
             </Link>
           )}
 
-          {user?.role !== "admin" && user?.role !== "delivery_partner" && (
-            <Link href="/user/cart">
-              <Button
-                variant="link"
-                className="relative cursor-pointer h-10 w-10"
-              >
-                <ShoppingCartIcon className="size-5" />
-                <>
-                  <span className="absolute top-0 right-0 flex min-w-4 h-4 px-1 items-center justify-center rounded-full bg-green-600 text-[10px] text-white">
-                    {cartData?.length > 0 ? cartData.length : 0}
-                  </span>
-                  <span className="absolute left-1/2 -bottom-2 -translate-x-1/2 text-xs">
-                    &#8377;{cartData?.length > 0 ? subTotal : 0}
-                  </span>
-                </>
-              </Button>
-            </Link>
-          )}
+          {!isCheckoutPath &&
+            user?.role !== "admin" &&
+            user?.role !== "delivery_partner" && (
+              <Link href="/user/cart">
+                <Button
+                  variant="link"
+                  className="relative cursor-pointer h-10 w-10"
+                >
+                  <ShoppingCartIcon className="size-5" />
+                  <>
+                    <span className="absolute top-0 right-0 flex min-w-4 h-4 px-1 items-center justify-center rounded-full bg-green-600 text-[10px] text-white">
+                      {cartData?.length > 0 ? cartData.length : 0}
+                    </span>
+                    <span className="absolute left-1/2 -bottom-2 -translate-x-1/2 text-xs">
+                      &#8377;{cartData?.length > 0 ? subTotal : 0}
+                    </span>
+                  </>
+                </Button>
+              </Link>
+            )}
 
-          {user && (
+          {!isCheckoutPath && user && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild className="cursor-pointer">
                 <Button variant="ghost" size="icon" className="rounded-full">
