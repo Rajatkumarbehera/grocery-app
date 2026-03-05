@@ -45,11 +45,11 @@ export default function CartItemCard({ item }: { item: CartItem }) {
             </p>
           </div>
         </div>
-        <div className="text-center">
+        {/* <div className="text-center">
           <p className="text-green-600 font-medium text-sm">
             Save &#8377;{item.price - 50}
           </p>
-        </div>
+        </div> */}
         <div className="flex items-center gap-10">
           <div className="flex items-center gap-3 bg-gray-100 rounded-full px-1 py-1 border border-gray-100">
             <button

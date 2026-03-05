@@ -39,7 +39,7 @@ export default function GroceryItemCard({ item }: { item: GroceryClient }) {
       }`}
     >
       <div className="relative w-full aspect-square flex items-center justify-center bg-linear-to-br from-gray-50 to-green-50/30 overflow-hidden group cursor-pointer">
-        <div
+        {/* <div
           className="absolute top-3 left-0 z-10 text-white text-[9px] font-bold px-2 pr-4 py-0.5 uppercase tracking-wide shadow-sm overflow-hidden bg-green-500 flex flex-col leading-tight"
           style={{
             clipPath: "polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%)",
@@ -47,7 +47,7 @@ export default function GroceryItemCard({ item }: { item: GroceryClient }) {
         >
           <span>&#8377;{item.price - 50}</span>
           <span>off</span>
-        </div>
+        </div> */}
         {cartItem && (
           <span className="absolute top-2 right-2 z-10 bg-green-500 text-white rounded-full p-0.5">
             <Check className="w-3 h-3" />
@@ -85,12 +85,12 @@ export default function GroceryItemCard({ item }: { item: GroceryClient }) {
               /{item.unit}
             </span>
           </div>
-          <div className="flex items-baseline gap-1">
+          {/* <div className="flex items-baseline gap-1">
             <p className="text-base font-semibold text-gray-500">
               &#8377;
               <span className="line-through">50</span>
             </p>
-          </div>
+          </div> */}
         </div>
       </CardContent>
 
